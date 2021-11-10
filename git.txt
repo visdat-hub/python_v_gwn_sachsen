@@ -1,0 +1,7 @@
+cd V:/Projekte/2020/GWN\ viewer/dev/python
+
+-- branch develop 
+
+git status
+git add .
+git commit -m 'stand 10.11.2021'
