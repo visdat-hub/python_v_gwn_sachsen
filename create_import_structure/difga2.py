@@ -7,7 +7,7 @@ import numpy as np
 #from dbfread import DBF
 import geopandas as gpd
 
-class difga_import:
+class difga2_import:
     def __init__(self, args):
         """ configure output """
         ## command line arguments
@@ -72,6 +72,7 @@ class difga_import:
             # get name measuring point
             name = f.split('/')[-1].split('_')[0]
             print(name)
+
             table = gpd.read_file(f)
             table['pegelname'] = name
             df = pd.DataFrame(table.drop(columns='geometry'))
@@ -191,14 +192,20 @@ class difga_import:
                 year = file.split('.')[0].split('_')[-1]
                 print(year)
                 # read parameters for one year# read the h5 file
-                df_10 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/10/' + str(args['scenario_id']) + '_10_' + str(year) + '.h5', key='table').reset_index()
+                df_10 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/10/' + str(year) + '.h5').reset_index()
+                
+                #print(df_10.shape)
+                if df_10.shape[1] == 13 :
+                    df_10.columns = ['index','jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+                    df_10['index'] = df_10['index'].astype('int64')
+                
                 # set integer type for column, set nan values
                 #df_10['index'] = df_10['index'].astype('float').replace(-9999, np.nan)
-                df_10['index'] = df_10['index'].replace(-9999, np.nan)
+                #df_10['index'] = df_10['index'].replace(-9999, np.nan)
                 # get a column for each month
-                df_10[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_10.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
+                #df_10[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_10.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
                 # remove column values_block_0
-                df_10 = df_10.drop(columns=['values_block_0'])
+                #df_10 = df_10.drop(columns=['values_block_0'])
                 # create sum of flows
                 decimals = self.conf['derived_parameters']['pi_summer']['decimals']
                 df['index'] = df_10['index']
@@ -235,14 +242,21 @@ class difga_import:
                 year = file.split('.')[0].split('_')[-1]
                 print(year)
                 # read parameters for one year# read the h5 file
-                df_10 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/10/' + str(args['scenario_id']) + '_10_' + str(year) + '.h5', key='table').reset_index()
+                df_10 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/10/' + str(year) + '.h5').reset_index()
+                
+                #print(df_10.shape)
+                if df_10.shape[1] == 13 :
+                    df_10.columns = ['index','jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+                    df_10['index'] = df_10['index'].astype('int64')
+                
+                
                 # set integer type for column, set nan values
                 #df_10['index'] = df_10['index'].astype('float').replace(-9999, np.nan)
-                df_10['index'] = df_10['index'].replace(-9999, np.nan)
+                #df_10['index'] = df_10['index'].replace(-9999, np.nan)
                 # get a column for each month
-                df_10[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_10.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
+                #df_10[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_10.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
                 # remove column values_block_0
-                df_10 = df_10.drop(columns=['values_block_0'])
+                #df_10 = df_10.drop(columns=['values_block_0'])
                 # create sum of flows
                 decimals = self.conf['derived_parameters']['pi_winter']['decimals']
                 df['index'] = df_10['index']
@@ -268,28 +282,40 @@ class difga_import:
         print('--> derive groundwater recharge')
         ds = {}
         # loop over rg2 files
-        src = args['src_folder'] + '/' + str(args['scenario_id']) + '/13/'
+        #src = args['src_folder'] + '/' + str(args['scenario_id']) + '/13/'
+        src = args['src_folder'] + '/13/'
+        print('src :',src)
         for r, d, f in os.walk(src):
             for file in f:
                 # get year from fname
                 year = file.split('.')[0].split('_')[-1]
                 print(year)
                 # read parameters 13 for one year# read the h5 file
-                df_rg2 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/13/' + str(args['scenario_id']) + '_13_' + str(year) + '.h5', key='table').reset_index()
-                df_rg2['index'] = df_rg2['index'].replace(-9999, np.nan)
-                df_rg2[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_rg2.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
-                df_rg2 = df_rg2.drop(columns=['values_block_0'])
-                #print(df_rg2)
+                df_rg2 = pd.read_hdf(args['src_folder'] + '/13/' + str(year) + '.h5').reset_index()
+                
+                #print(df_rg2.shape)
+                if df_rg2.shape[1] == 13 :
+                    df_rg2.columns = ['index','jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+                    df_rg2['index'] = df_rg2['index'].astype('int64')
+                   #print(df_rg2)
+                   
                 # read parameters 12 for one year# read the h5 file
-                df_rg1 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/12/' + str(args['scenario_id']) + '_12_' + str(year) + '.h5', key='table').reset_index()
+                df_rg1 = pd.read_hdf(args['src_folder'] + '/12/' + str(year) + '.h5').reset_index()
+                
+                print(df_rg1.shape)
+                if df_rg1.shape[1] == 13 :
+                    df_rg1.columns = ['index','jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+                    df_rg1['index'] = df_rg1['index'].astype('int64')
+                
                 df_rg1['index'] = df_rg1['index'].replace(-9999, np.nan)
-                df_rg1[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_rg1.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
-                df_rg1 = df_rg1.drop(columns=['values_block_0'])
-                #print(df_rg1)
+               
+                #df_rg1 = df_rg1.drop(columns=['values_block_0'])
+                print(df_rg1)
                 # read locker_fest
-                df_difga_lockerfest = pd.read_csv('/mnt/visdat/Projekte/2020/GWN viewer/daten/difga/difga_locker_fest.csv', sep=';').sort_values(by=['id_org'])
+                df_difga_lockerfest = pd.read_csv('/mnt/visdat/Projekte/2020/GWN viewer/daten/difga/difga2_locker_fest.csv', sep=';').sort_values(by=['id_org'])
                 print('--> df_difga_lockerfest read...OK ' + df_difga_lockerfest.columns)
-                #print(df_difga_lockerfest)
+                print(df_difga_lockerfest)
+                
                 # summarize df12 and df13
                 df_merge = pd.merge(df_rg2, df_rg1, how='left', on='index')
                 print(df_merge.columns)
@@ -307,6 +333,20 @@ class difga_import:
                 df_sum['oct'] = df_merge['oct_x'] + df_merge['oct_y']
                 df_sum['nov'] = df_merge['nov_x'] + df_merge['nov_y']
                 df_sum['dec'] = df_merge['dec_x'] + df_merge['dec_y']
+                
+                df_sum['jan'] = df_sum['jan'].replace(-19998, -9999)
+                df_sum['feb'] = df_sum['feb'].replace(-19998, -9999)
+                df_sum['mar'] = df_sum['mar'].replace(-19998, -9999)
+                df_sum['apr'] = df_sum['apr'].replace(-19998, -9999)
+                df_sum['may'] = df_sum['may'].replace(-19998, -9999)
+                df_sum['jun'] = df_sum['jun'].replace(-19998, -9999)
+                df_sum['jul'] = df_sum['jul'].replace(-19998, -9999)
+                df_sum['aug'] = df_sum['aug'].replace(-19998, -9999)
+                df_sum['sep'] = df_sum['sep'].replace(-19998, -9999)
+                df_sum['oct'] = df_sum['oct'].replace(-19998, -9999)
+                df_sum['nov'] = df_sum['nov'].replace(-19998, -9999)
+                df_sum['dec'] = df_sum['dec'].replace(-19998, -9999)
+                
                 #print(df_sum)
                 # merge df_sum with locker_fest
                 df_locker = pd.merge(df_difga_lockerfest, df_sum, how='inner', left_on='id_org', right_on='index')
@@ -341,16 +381,30 @@ class difga_import:
                 year = file.split('.')[0].split('_')[-1]
                 print(year)
                 # read parameters 13 for one year# read the h5 file
-                df_rg2 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/13/' + str(args['scenario_id']) + '_13_' + str(year) + '.h5', key='table').reset_index()
-                df_rg2['index'] = df_rg2['index'].replace(-9999, np.nan)
-                df_rg2[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_rg2.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
-                df_rg2 = df_rg2.drop(columns=['values_block_0'])
+                df_rg2 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/13/' + str(year) + '.h5').reset_index()
+                
+                #print(df_rg2.shape)
+                if df_rg2.shape[1] == 13 :
+                    df_rg2.columns = ['index','jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+                    df_rg2['index'] = df_rg2['index'].astype('int64')
+                
+                
+                #df_rg2['index'] = df_rg2['index'].replace(-9999, np.nan)
+                #df_rg2[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_rg2.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
+                #df_rg2 = df_rg2.drop(columns=['values_block_0'])
                 #print(df_rg2)
                 # read parameters 12 for one year# read the h5 file
-                df_rg1 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/12/' + str(args['scenario_id']) + '_12_' + str(year) + '.h5', key='table').reset_index()
-                df_rg1['index'] = df_rg1['index'].replace(-9999, np.nan)
-                df_rg1[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_rg1.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
-                df_rg1 = df_rg1.drop(columns=['values_block_0'])
+                df_rg1 = pd.read_hdf(args['src_folder'] + '/' + str(args['scenario_id']) + '/12/' + str(year) + '.h5').reset_index()
+                
+                print(df_rg1.shape)
+                if df_rg1.shape[1] == 13 :
+                    df_rg1.columns = ['index','jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+                    df_rg1['index'] = df_rg1['index'].astype('int64')
+                
+                
+                #df_rg1['index'] = df_rg1['index'].replace(-9999, np.nan)
+                #df_rg1[['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']] = df_rg1.values_block_0.str.split(expand=True,).astype(float).replace(-9999, np.nan)
+                #df_rg1 = df_rg1.drop(columns=['values_block_0'])
                 #print(df_rg1)
                 # summarize df12 and df13
                 df_merge = pd.merge(df_rg2, df_rg1, how='left', on='index')
@@ -400,11 +454,13 @@ class difga_import:
                     path = self.args['dst_folder'] + '/' + str(self.args['scenario_id']) + '/' + str(self.conf['derived_parameters'][p]['id']) + '/'
                     if not os.path.exists(path):
                         os.makedirs(path)
-                    fn = str(self.args['scenario_id']) + '_' + str(self.conf['derived_parameters'][p]['id']) + '_' + str(y) + '.h5'
+                    #fn = str(self.args['scenario_id']) + '_' + str(self.conf['derived_parameters'][p]['id']) + '_' + str(y) + '.h5'
+                    fn = str(y) + '.h5'
+                    
                     print(path + fn)
                     #sys.exit()
                     try:
-                        df_final[['values_block_0']].to_hdf(path + fn, key='table' , mode='w', format='table')
+                        df_final[['values_block_0']].to_hdf(path + fn, key='data' , mode='w', format='table')
                     except:
                         sys.exit("ERROR: " + str(sys.exc_info()))
             else:

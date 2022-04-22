@@ -184,9 +184,15 @@ def read_parameter(src_param, src_type):
 # @param df_param Dataset of parameter
 # @return df_join Joined dataset as pandas object (dataframe)
 def do_spatial_join(df_intersect, df_param, df_areasize):
-    #print('--> perform spatial join')
+    
+    print('--> perform spatial join')
+    print(df_param.shape, df_intersect.shape)
+    if df_intersect.size == 0:
+        sys.exit('ERROR: df_intersect has no entrys in do_spatial_join()')
+    elif df_param.size == 0:
+        sys.exit('ERROR: df_param has no entrys in do_spatial_join()')
     # merge datasets
-    #print('--> merge datasets')
+    print('--> merge datasets')
     df_join = pd.merge(df_intersect, df_param, left_on='id_hydrotop', right_on='index' ,how='left', sort=False)
     print(df_intersect.shape, df_param.shape, df_join.shape)
     print(len(df_join['id_area'].unique()), df_join['id_area'].unique().min(), df_join['id_area'].unique().max())
@@ -209,8 +215,6 @@ def do_spatial_join(df_intersect, df_param, df_areasize):
         sys.exit()
 
     df_param = None
-    # drop rows where index is nan
-    #df_join = df_join.dropna(axis=0, subset=['index'])
     
     # test for negative area sizes
     df_area_0 = df_join.loc[df_join['area']<0]

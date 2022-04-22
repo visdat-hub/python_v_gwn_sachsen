@@ -18,9 +18,9 @@ class kliwes_generator:
         ## configuration of parameter properties
         self.conf = {
             'parameters' : {
-                'sn' : {'id':6, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
-                'wn' : {'id':7, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
-                'pi' : {'id':10, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
+                'sn' : {'id':6, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : False, 'aggregation' : 'yearly_sum'},
+                'wn' : {'id':7, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : False, 'aggregation' : 'yearly_sum'},
+                'pi' : {'id':10, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : False, 'aggregation' : 'yearly_sum'},
                 'rg1' : {'id':12, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
                 'rg2' : {'id':13, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
                 'rd' : {'id':16, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
@@ -28,11 +28,11 @@ class kliwes_generator:
                 'rh' : {'id':26, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
                 'ro' : {'id':27, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
                 'mkr' : {'id':28, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
-                'tkr' : {'id':29, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
-                'er' : {'id':31, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
-                'gwn' : {'id':32, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
-                'r' : {'id':33, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'},
-                'sicker' : {'id':34, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : True, 'aggregation' : 'yearly_sum'}
+                'tkr' : {'id':29, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : False, 'aggregation' : 'yearly_sum'},
+                'er' : {'id':31, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : False, 'aggregation' : 'yearly_sum'},
+                'gwn' : {'id':32, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : False, 'aggregation' : 'yearly_sum'},
+                'r' : {'id':33, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : False, 'aggregation' : 'yearly_sum'},
+                'sicker' : {'id':34, 'decimals':2, 'dtype':'int32', 'nodata':-99999, 'to_hdf' : False, 'aggregation' : 'yearly_sum'}
             },
             'dbconfig' : {
                 "db_host" : "192.168.0.194",
@@ -42,23 +42,8 @@ class kliwes_generator:
                 "db_port" : "9991"
             },
             'scenarios': {
-                '00wg_f' : {'id' : 7},
-                '00wg_v' : {'id' : 8},
-                '00wg_w' : {'id' : 9},
-                '00wg'   : {'id' : 6},
-                '66wg' : {'id' : 10},
-                '99wg' : {'id' : 11},
-                '00wx' : {'id' : 12},
-                '11wx' : {'id' : 13},
-                '22wx' : {'id' : 14},
-                '33wx' : {'id' : 15},
-                '44wx' : {'id' : 16},
-                '55wx' : {'id' : 17},
-                '66wx' : {'id' : 18},
-                '77wx' : {'id' : 19},
-                '88wx' : {'id' : 20},
-                '99wx' : {'id' : 21},
-                'ist' : {'id' : 0}
+                
+                '55wx' : {'id' : 17}
             }
         }
 

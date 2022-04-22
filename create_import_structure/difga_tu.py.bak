@@ -15,19 +15,19 @@ class difga_tu_import:
         ## configuration of parameter properties
         self.conf = {
             'parameters' : {
-                'P' : {'id':10, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
-                'RG2' : {'id':13, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
-                'RG1' : {'id':12, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
-                'RD' : {'id':16, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
-                'QG2' : {'id':15, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
-                'QG1' : {'id':14, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
-                'REST' : {'id':31, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
-                'DEF' : {'id':18, 'decimals':2, 'dtype':'int32', 'to_hdf' : True}
+                'P' : {'id':10, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'RG2' : {'id':13, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'RG1' : {'id':12, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'RD' : {'id':16, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'QG2' : {'id':15, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'QG1' : {'id':14, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'REST' : {'id':31, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'DEF' : {'id':18, 'decimals':2, 'dtype':'int32', 'to_hdf' : False}
             },
             'derived_parameters' : {
-                'pi_summer' : {'id':6, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
-                'pi_winter' : {'id':7, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
-                'gwn' : {'id':32, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'pi_summer' : {'id':6, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'pi_winter' : {'id':7, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
+                'gwn' : {'id':103, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
                 'sicker' : {'id':34, 'decimals':2, 'dtype':'int32', 'to_hdf' : False}
             }
         }
@@ -317,7 +317,7 @@ class difga_tu_import:
                 #df_rg1 = df_rg1.drop(columns=['values_block_0'])
                 print(df_rg1)
                 # read locker_fest
-                df_difga_lockerfest = pd.read_csv('/mnt/visdat/Projekte/2020/GWN viewer/daten/difga/difga_locker_fest.csv', sep=';').sort_values(by=['id_org'])
+                df_difga_lockerfest = pd.read_csv('/mnt/visdat/Projekte/2020/GWN viewer/daten/difga/difga2_locker_fest.csv', sep=';').sort_values(by=['id_org'])
                 print('--> df_difga_lockerfest read...OK ' + df_difga_lockerfest.columns)
                 print(df_difga_lockerfest)
                 # summarize df12 and df13
@@ -444,11 +444,13 @@ class difga_tu_import:
                     path = self.args['dst_folder'] + '/' + str(self.args['scenario_id']) + '/' + str(self.conf['derived_parameters'][p]['id']) + '/'
                     if not os.path.exists(path):
                         os.makedirs(path)
-                    fn = str(self.args['scenario_id']) + '_' + str(self.conf['derived_parameters'][p]['id']) + '_' + str(y) + '.h5'
+                    #fn = str(self.args['scenario_id']) + '_' + str(self.conf['derived_parameters'][p]['id']) + '_' + str(y) + '.h5'
+                    fn = str(y) + '.h5'
+                    
                     print(path + fn)
                     #sys.exit()
                     try:
-                        df_final[['values_block_0']].to_hdf(path + fn, key='table' , mode='w', format='table')
+                        df_final[['values_block_0']].to_hdf(path + fn, key='data' , mode='w', format='table')
                     except:
                         sys.exit("ERROR: " + str(sys.exc_info()))
             else:

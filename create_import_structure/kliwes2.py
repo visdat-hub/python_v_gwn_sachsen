@@ -12,11 +12,8 @@ class kliwes2_import:
         ## configuration of parameter properties
         self.conf = {
             'derived_parameters' : {
-                'pi_summer' : {'id':6, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
-                'pi_winter' : {'id':7, 'decimals':2, 'dtype':'int32', 'to_hdf' : False}
-            },
-            'scenarios': {
-                'ist' : {'id' : 30}
+                'pi_summer' : {'id':6, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
+                'pi_winter' : {'id':7, 'decimals':2, 'dtype':'int32', 'to_hdf' : True}
             }
         }
 

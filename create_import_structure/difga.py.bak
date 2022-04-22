@@ -27,7 +27,7 @@ class difga_import:
             'derived_parameters' : {
                 'pi_summer' : {'id':6, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
                 'pi_winter' : {'id':7, 'decimals':2, 'dtype':'int32', 'to_hdf' : False},
-                'gwn' : {'id':32, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
+                'gwn' : {'id':103, 'decimals':2, 'dtype':'int32', 'to_hdf' : True},
                 'sicker' : {'id':34, 'decimals':2, 'dtype':'int32', 'to_hdf' : False}
             }
         }

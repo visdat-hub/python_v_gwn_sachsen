@@ -52,7 +52,7 @@ import os
 from kliwes import kliwes_import
 from kliwes2 import kliwes2_import
 from difga import difga_import
-from difga2 import difga2_import
+from difga_tu import difga_tu_import
 from raklida import raklida_import
 from stoffbilanz import stoffbilanz_import
 
@@ -182,7 +182,7 @@ if __name__ ==  '__main__':
         
     # difga derived data import
     if args['data_type'] == 'difga2_derived':
-        difga = difga2_import(args)
+        difga = difga_tu_import(args)
         # create derived parameters
         df = difga.create_derived_parameters(args)
         # save data
